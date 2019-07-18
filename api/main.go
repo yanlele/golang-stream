@@ -17,5 +17,3 @@ func main()  {
 	r := RegisterHandlers()
 	_ = http.ListenAndServe(":8000", r)
 }
-
-// handler -> validation(1.request, 2.user)-> business logic -> response
