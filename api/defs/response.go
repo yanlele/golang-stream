@@ -1,4 +1,4 @@
-package dbops
+package defs
 
 import (
 	"net/http"
