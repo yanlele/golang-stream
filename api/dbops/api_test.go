@@ -1,38 +1,63 @@
 package dbops
 
 import (
+	"log"
 	"testing"
 )
 
 // init(dblogin, truncate tables) -> run tests -> clear data(truncate tables)
 
 func ClearTables() {
-	dbConn.Exec("truncate user")
-	dbConn.Exec("truncate video_info")
-	dbConn.Exec("truncate comments")
-	dbConn.Exec("truncate sessions")
+	_, _ = dbConn.Exec("truncate user")
+	_, _ = dbConn.Exec("truncate video_info")
+	_, _ = dbConn.Exec("truncate comments")
+	_, _ = dbConn.Exec("truncate sessions")
 }
 
-func TestMain(m *testing.M)  {
-
+func TestMain(m *testing.M) {
+	ClearTables()
+	m.Run()
+	ClearTables()
 }
 
 func TestUserWorkFlow(t *testing.T) {
-
+	t.Run("add", TestAddUser)
+	t.Run("Get", TestGetUser)
+	t.Run("Del", TestDeleteUser)
+	t.Run("ReGet", TestReGetUser)
 }
 
 func TestAddUser(t *testing.T) {
-
+	err := AddUserCredential("yanle", "123")
+	if err != nil {
+		t.Errorf("Error of addUser: %v", err)
+	}
 }
 
-func TestGerUser(t *testing.T) {
-
+func TestGetUser(t *testing.T) {
+	pwd, err := GetUserCredential("yanle")
+	if pwd != "123" || err != nil {
+		t.Errorf("Error of getUser")
+	}
+	log.Println("user info: ", pwd)
 }
 
 func TestDeleteUser(t *testing.T) {
-
+	err := DeleteUser("yanle", "123")
+	if err != nil {
+		t.Errorf("Error of delete user: %v", err)
+	}
 }
 
-func TestReGetUser(t *testing.T)  {
+func TestReGetUser(t *testing.T) {
+	pwd, err := GetUserCredential("yanle")
+	if err != nil {
+		t.Error("Error of ReGet user", err)
+	}
 
+	log.Printf("password %v", pwd)
+
+	if pwd != "" {
+		t.Errorf("Deleting user test failed")
+	}
 }
