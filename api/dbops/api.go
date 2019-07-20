@@ -3,6 +3,7 @@ package dbops
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"golang-stream/api/defs"
 	"log"
 )
 
@@ -49,4 +50,8 @@ func DeleteUser(loginName string, pwd string) error {
 
 	defer stmtDel.Close()
 	return nil
+}
+
+func AddNewVideo(aid int, name string) (*defs.VideoInfo, error) {
+	// create uuid
 }
