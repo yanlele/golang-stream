@@ -61,3 +61,44 @@ func testReGetUser(t *testing.T) {
 		t.Errorf("Deleting user test failed")
 	}
 }
+
+// video api 测试
+var tempvid string
+
+func TestVideoWorkFlow(t *testing.T) {
+	ClearTables()
+	t.Run("PrepareUser", testAddUser)
+	t.Run("AddVideo", testAddVideoInfo)
+	t.Run("GetVideo", testGetVideoInfo)
+	t.Run("DelVideo", testDeleteVideoInfo)
+	t.Run("ReGetVideo", testReGetVideoInfo)
+}
+
+func testAddVideoInfo(t *testing.T) {
+	vi, err := AddNewVideo(1, "my-video")
+	if err != nil {
+		t.Errorf("Error of add new video: %v", err)
+	}
+	tempvid = vi.Id
+}
+
+func testGetVideoInfo(t *testing.T) {
+	_, err := GetVideoInfo(tempvid)
+	if err != nil {
+		t.Errorf("Error of get video info: %v", err)
+	}
+}
+
+func testDeleteVideoInfo(t *testing.T) {
+	err := DeleteVideoInfo(tempvid)
+	if err != nil {
+		t.Errorf("error of delete video info: %v", err)
+	}
+}
+
+func testReGetVideoInfo(t *testing.T) {
+	_, err := GetVideoInfo(tempvid)
+	if err != nil {
+		t.Errorf("error of re get video info %v", err)
+	}
+}
