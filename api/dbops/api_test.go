@@ -1,8 +1,10 @@
 package dbops
 
 import (
-	"log"
+	"fmt"
+	"strconv"
 	"testing"
+	"time"
 )
 
 // init(dblogin, truncate tables) -> run tests -> clear data(truncate tables)
@@ -39,7 +41,6 @@ func testGetUser(t *testing.T) {
 	if pwd != "123" || err != nil {
 		t.Errorf("Error of getUser")
 	}
-	log.Println("user info: ", pwd)
 }
 
 func testDeleteUser(t *testing.T) {
@@ -54,8 +55,6 @@ func testReGetUser(t *testing.T) {
 	if err != nil {
 		t.Error("Error of ReGet user", err)
 	}
-
-	log.Printf("password %v", pwd)
 
 	if pwd != "" {
 		t.Errorf("Deleting user test failed")
@@ -100,5 +99,40 @@ func testReGetVideoInfo(t *testing.T) {
 	_, err := GetVideoInfo(tempvid)
 	if err != nil {
 		t.Errorf("error of re get video info %v", err)
+	}
+}
+
+func TestComments(t *testing.T) {
+	ClearTables()
+	t.Run("AddUser", testAddUser)
+	t.Run("AddComments", testAddComments)
+	t.Run("ListComments", testListComments)
+	ClearTables()
+}
+
+func testAddComments(t *testing.T) {
+	vid := "12345"
+	aid := 1
+	content := "I like this vide"
+
+	err := AddNewComments(vid, aid, content)
+
+	if err != nil {
+		t.Errorf("Error of add commemtns: %v", err)
+	}
+}
+
+func testListComments(t *testing.T) {
+	vid := "12345"
+	from := 1514764800
+	to, _ := strconv.Atoi(strconv.FormatInt(time.Now().UnixNano()/1000000000, 10))
+
+	res, err := ListComments(vid, from, to)
+	if err != nil {
+		t.Errorf("Error of ListComments: %v", err)
+	}
+
+	for i, ele := range res {
+		fmt.Printf("comment: %d, %v \n", i, ele)
 	}
 }

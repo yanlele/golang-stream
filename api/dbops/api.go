@@ -121,13 +121,14 @@ func AddNewComments(vid string, aid int, content string) error {
 	if err != nil {
 		return err
 	}
-	stmtIns, err := dbConn.Prepare("insert info comments (id, video_id, author_id, contemt) values (?, ?, ?, ?)")
+
+	stmtIns, err := dbConn.Prepare("INSERT INTO comments (id, video_id, author_id, content) values (?, ?, ?, ?)")
 	if err != nil {
 		return err
 	}
-	_, e := stmtIns.Exec(id, vid, aid, content)
-	if e != nil {
-		return e
+	_, err = stmtIns.Exec(id, vid, aid, content)
+	if err != nil {
+		return err
 	}
 	defer stmtIns.Close()
 	return nil
@@ -135,11 +136,11 @@ func AddNewComments(vid string, aid int, content string) error {
 
 func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 	stmtOut, err := dbConn.Prepare(`
-	select comments.id user.login_name, comments.content from comments
-	inner join user on comments.author_id = user.id
-	where comments.video_id = ? 
-	and comments.time > FROM_UNIXTIME(?)
-	and comments.time <= FROM_UNIXTIME(?)
+		SELECT comments.id, user.login_name, comments.content FROM comments
+		INNER JOIN user ON comments.author_id = user.id
+		WHERE comments.video_id = ? 
+		AND comments.time > FROM_UNIXTIME(?) 
+		AND comments.time <= FROM_UNIXTIME(?)
 `)
 	if err != nil {
 		return nil, err
