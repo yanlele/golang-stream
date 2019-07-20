@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"golang-stream/api/defs"
+	"golang-stream/api/utils"
 	"log"
+	"time"
 )
 
 func AddUserCredential(loginName string, pwd string) error {
@@ -54,4 +56,27 @@ func DeleteUser(loginName string, pwd string) error {
 
 func AddNewVideo(aid int, name string) (*defs.VideoInfo, error) {
 	// create uuid
+	vid, err := utils.NewUUID()
+	if err != nil {
+		return nil, err
+	}
+
+	t := time.Now()
+	ctime := t.Format("Jan 02 2006, 15:04:05") // 这个这串格式是固定的， 字符串
+	stmtIns, err := dbConn.Prepare("insert into video_info (id, author_id, name, display_ctime) values (?, ?, ?, ?)")
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = stmtIns.Exec(vid, aid, name, ctime)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := &defs.VideoInfo{Id: vid, AuthorId: aid, Name: name, DisplayCtime: ctime}
+
+	defer stmtIns.Close()
+
+	return res, nil
 }

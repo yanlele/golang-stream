@@ -10,6 +10,6 @@ type UserCredential struct {
 type VideoInfo struct {
 	Id string
 	AuthorId int
-	Name int
+	Name string
 	DisplayCtime string
 }
