@@ -22,9 +22,9 @@ func TestMain(m *testing.M) {
 
 func TestUserWorkFlow(t *testing.T) {
 	t.Run("add", testAddUser)
-	t.Run("Get", TestGetUser)
-	t.Run("Del", TestDeleteUser)
-	t.Run("ReGet", TestReGetUser)
+	t.Run("Get", testGetUser)
+	t.Run("Del", testDeleteUser)
+	t.Run("ReGet", testReGetUser)
 }
 
 func testAddUser(t *testing.T) {
@@ -34,7 +34,7 @@ func testAddUser(t *testing.T) {
 	}
 }
 
-func TestGetUser(t *testing.T) {
+func testGetUser(t *testing.T) {
 	pwd, err := GetUserCredential("yanle")
 	if pwd != "123" || err != nil {
 		t.Errorf("Error of getUser")
@@ -42,14 +42,14 @@ func TestGetUser(t *testing.T) {
 	log.Println("user info: ", pwd)
 }
 
-func TestDeleteUser(t *testing.T) {
+func testDeleteUser(t *testing.T) {
 	err := DeleteUser("yanle", "123")
 	if err != nil {
 		t.Errorf("Error of delete user: %v", err)
 	}
 }
 
-func TestReGetUser(t *testing.T) {
+func testReGetUser(t *testing.T) {
 	pwd, err := GetUserCredential("yanle")
 	if err != nil {
 		t.Error("Error of ReGet user", err)
