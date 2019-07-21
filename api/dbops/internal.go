@@ -1,8 +1,10 @@
 package dbops
 
+import "golang-stream/api/defs"
+
 func InserSession(sid string, ttl string, uname string) error {
 	// 如果ttl 不是string 类型， 还需要转类型库
-	stmtIns, err := dbConn.Prepare("insert into sessions (session_id, TTL, login_name) values (?, ?, ?, ?)")
+	stmtIns, err := dbConn.Prepare("insert into sessions (session_id, TTL, login_name) values (?, ?, ?)")
 	if err != nil {
 		return err
 	}
@@ -14,5 +16,9 @@ func InserSession(sid string, ttl string, uname string) error {
 
 	defer stmtIns.Close()
 	return nil
+}
+
+func RetrieveSession(sid string) (*defs.SimpleSession, error) {
+
 }
 
