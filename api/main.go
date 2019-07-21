@@ -17,3 +17,5 @@ func main()  {
 	r := RegisterHandlers()
 	_ = http.ListenAndServe(":8000", r)
 }
+
+// main -> middleware -> defs(message, err) -> handlers -> dbops -> response
