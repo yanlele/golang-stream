@@ -47,7 +47,7 @@ create table if not exists comments (
 
 create table if not exists sessions (
   session_id varchar(255) not null primary key,
-  TTL        varchar(255),
+  TTL        bigint(15),
   login_name text
 )
   ENGINE = InnoDB
