@@ -29,7 +29,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	su := &defs.SingedUp{Success: true, SessionId: id}
 
 	if resp, err := json.Marshal(su); err != nil {
-		SendErrorResponse(w, defs.ErrorInsernalFaults)
+		SendErrorResponse(w, defs.ErrorInternalFaults)
 		return
 	} else {
 		SendNormalResponse(w, string(resp), 201)

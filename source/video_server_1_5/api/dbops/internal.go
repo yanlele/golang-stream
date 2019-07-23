@@ -77,8 +77,6 @@ func RetrieveAllSessions() (*sync.Map, error) {
         	m.Store(id, ss)
         	log.Printf(" session id: %s, ttl: %d", id, ss.TTL)
         }
-
-        
     }
 
     return m, nil

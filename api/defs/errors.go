@@ -14,5 +14,5 @@ var (
 	ErrorRequestBodyParseFailed = ErrorResponse{HttpSC: 400, Error: Err{Error: "Request body is not correct", ErrorCode: "001"}}
 	ErrorNotAuthUser            = ErrorResponse{HttpSC: 401, Error: Err{Error: "User authentication failed", ErrorCode: "001"}}
 	ErrorDBError                = ErrorResponse{HttpSC: 500, Error: Err{Error: "DB ops failed", ErrorCode: "003"}}
-	ErrorInsernalFaults         = ErrorResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
+	ErrorInternalFaults         = ErrorResponse{HttpSC: 500, Error: Err{Error: "Internal service error", ErrorCode: "004"}}
 )
